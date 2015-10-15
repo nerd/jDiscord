@@ -95,7 +95,7 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
     @Override
     public void onError(Exception ex) {
         System.err.println("Internal client error!");
-        api.log("Attempting go log in (again?)!");
+        api.log("Attempting go login (again?)!");
         api.stop();
         try {
             api.login();
