@@ -41,8 +41,8 @@ public class DiscordAPI {
         loginTokens.setPassword(password);
         try {
             login();
-        }catch(NoLoginDetailsException e){}
-        catch(BadUsernamePasswordException | DiscordFailedToConnectException e){
+        } catch(NoLoginDetailsException e){
+        } catch(BadUsernamePasswordException | DiscordFailedToConnectException e){
             throw e;
         }
         return this;
