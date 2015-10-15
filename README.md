@@ -36,7 +36,17 @@ public class ExampleListener implements EventListener {
         this.api = api;
     }
     public void UserChat(UserChatEvent e){
+        if (e.getMsg().getMessage().equals("#ping")){
+            e.getGroup().sendMessage(new MessageBuilder()
+                    .addString("Yes, ")
+                    .addUserTag(e.getGroupUser(), e.getGroup())
+                    .addString("?")
+                    .build());
+        }
         System.out.println((e.getMsg().isEdited() ? "# " : "") + "[" + e.getGroup().getName() + "] " + e.getGroupUser() + " > " + e.getMsg().getMessage());
+    }
+    public void Typing(UserTypingEvent e){
+        System.out.println(e.getGroupUser() + " is typing in " + e.getGroup());
     }
 }
 
