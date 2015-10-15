@@ -1,0 +1,59 @@
+package me.itsghost.jdiscord.internal;
+
+import lombok.Data;
+import me.itsghost.jdiscord.DiscordAPI;
+import me.itsghost.jdiscord.exception.BadUsernamePasswordException;
+import me.itsghost.jdiscord.exception.DiscordFailedToConnectException;
+import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;
+import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;
+import me.itsghost.jdiscord.internal.request.RequestManager;
+import me.itsghost.jdiscord.internal.request.WebSocketClient;
+import org.json.JSONObject;
+
+/**
+ * Created by Ghost on 14/10/2015.
+ */
+@Data
+public class Login {
+    private String username;
+    private String password;
+    private String token;
+    public void process(DiscordAPI api) throws BadUsernamePasswordException, DiscordFailedToConnectException {
+        api.log("Attempting to login!");
+        PacketBuilder pb = new PacketBuilder(api);
+        pb.setSendLoginHeaders(false);
+        pb.setData(new JSONObject().put("email", username).put("password", password).toString());
+        pb.setUrl("https://discordapp.com/api/auth/login");
+        pb.setType(RequestType.POST);
+        final String out = pb.makeRequest();
+        if (out == null)
+            throw new DiscordFailedToConnectException();
+        JSONObject outJson = new JSONObject(out);
+        if (outJson.isNull("token"))
+            throw new BadUsernamePasswordException();
+        token = outJson.getString("token");
+        api.log("Logged in and starting session!");
+        api.log("Token: " + token);
+        api.setRequestManager(new RequestManager(api));
+        WebSocketClient socket = api.getRequestManager().getSocketClient();
+        JSONObject login = new JSONObject();
+        login.put("op", 2)
+                .put("d", new JSONObject()
+                        .put("token", token)
+                        .put("properties", new JSONObject()
+                            .put("$os", "Windows")
+                            .put("$browser", "jDiscord by GitHub user NotGGhost")
+                            .put("$device", "")
+                            .put("$referring_domain", "t.co")
+                            .put("$referrer", "")
+                        )
+                        .put("v", 3)
+                );
+        while (!socket.loaded){
+            try{
+                Thread.sleep(200);
+            }catch(Exception e){}
+        }
+        socket.send(login.toString());
+    }
+}
