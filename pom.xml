@@ -21,10 +21,6 @@
     </build>
     <repositories>
         <repository>
-            <id>JNA</id>
-            <url>http://central.maven.org/maven2/</url>
-        </repository>
-        <repository>
             <id>ASC</id>
             <url>https://maven.java.net/content/repositories/snapshots/</url>
         </repository>
