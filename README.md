@@ -8,13 +8,13 @@ We're just doing testing some stuff right now!
 
 #Getting a discord api instance
 
-The api doesn't have a builder, just create a new instance of the DiscordAPI class, and optionally use #login like a builder method.
+~~The api doesn't have a builder, just create a new instance of the DiscordAPI class, and optionally use #login like a builder method.~~
 
 Examples:
 ```java
-DiscordAPI api = new DiscordAPI("email", "pass").login();
+DiscordAPI api = new DiscordBuilder("email", "pass").build().login();
 
-DiscordAPI api = new DiscordAPI("email", "pass");
+DiscordAPI api = new DiscordBuilder("email", "pass").build();
 api.login();
 ```
 
