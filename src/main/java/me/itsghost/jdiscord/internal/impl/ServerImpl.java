@@ -2,13 +2,12 @@ package me.itsghost.jdiscord.internal.impl;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import me.itsghost.jdiscord.DiscordAPI;
-import me.itsghost.jdiscord.Group;
-import me.itsghost.jdiscord.GroupUser;
+import me.itsghost.jdiscord.DiscordAPIImpl;
 import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;
 import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;
+import me.itsghost.jdiscord.talkable.Group;
+import me.itsghost.jdiscord.talkable.GroupUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,26 +21,27 @@ public class ServerImpl implements Server {
     @Getter @Setter private List<GroupUser> connectedClients = new ArrayList<GroupUser>();
     @Getter @Setter private List<Group> groups = new ArrayList<Group>();
 
-    private DiscordAPI api;
+    private DiscordAPIImpl api;
 
-    public ServerImpl(String id, DiscordAPI api){
+    public ServerImpl(String id, DiscordAPIImpl api) {
         this.api = api;
         this.id = id;
     }
 
-    public String toString(){
+    public String toString() {
         return id;
     }
 
     @Override
-    public GroupUser getGroupUserById(String id){
+    public GroupUser getGroupUserById(String id) {
         for (GroupUser user : connectedClients)
             if (user.getUser().getId().equals(id))
                 return user;
         return null;
     }
+
     @Override
-    public Group getGroupById(String id){
+    public Group getGroupById(String id) {
         for (Group group : getGroups())
             if (group.getId().equals(id))
                 return group;
@@ -49,16 +49,16 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public GroupUser getGroupUserByUsername(String id){
+    public GroupUser getGroupUserByUsername(String id) {
         for (GroupUser user : connectedClients)
-            if (user.getUser().getUsername().equals(id))
+            if (user.getUser().getId().equals(id))
                 return user;
         return null;
 
     }
 
     @Override
-    public void bc(String message){
+    public void bc(String message) {
         for (Group group : getGroups())
             group.sendMessage(message);
     }
@@ -70,6 +70,7 @@ public class ServerImpl implements Server {
         pb.setType(RequestType.DELETE);
         pb.makeRequest();
     }
+
     @Override
     public void ban(String user) {
         PacketBuilder pb = new PacketBuilder(api);

@@ -1,13 +1,13 @@
 package me.itsghost.jdiscord.internal.request.poll;
 
-import me.itsghost.jdiscord.DiscordAPI;
-import me.itsghost.jdiscord.GroupUser;
+import me.itsghost.jdiscord.DiscordAPIImpl;
 import me.itsghost.jdiscord.SelfData;
 import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.events.APILoadedEvent;
 import me.itsghost.jdiscord.internal.impl.GroupImpl;
 import me.itsghost.jdiscord.internal.impl.ServerImpl;
 import me.itsghost.jdiscord.internal.impl.UserImpl;
+import me.itsghost.jdiscord.talkable.GroupUser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,11 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReadyPoll implements Poll{
+public class ReadyPoll implements Poll {
     private Thread thread;
-    private DiscordAPI api;
-    public ReadyPoll(DiscordAPI api){
-       this.api = api;
+    private DiscordAPIImpl api;
+
+    public ReadyPoll(DiscordAPIImpl api) {
+        this.api = api;
     }
 
     @Override
@@ -46,8 +47,8 @@ public class ReadyPoll implements Poll{
         });
         thread.start();
 
-        setupContacts(content);
         setupServers(content);
+        setupContacts(content);
 
         api.getEventManager().executeEvent(new APILoadedEvent());
         api.setLoaded(true);
@@ -60,6 +61,9 @@ public class ReadyPoll implements Poll{
             JSONObject item = array.getJSONObject(i);
             String id = contact.getString("id");
 
+            if (item.getString("id").equals(api.getSelfInfo().getId()))
+                api.setAs(contact.getString("id"));
+
             UserImpl userImpl = new UserImpl(contact.getString("username"), id, item.getString("id"), api);
             userImpl.setAvatar(contact.isNull("avatar") ? "" : "https://cdn.discordapp.com/avatars/" + id + "/" + contact.getString("avatar") + ".jpg");
             userImpl.setAvatarId(contact.isNull("avatar") ? "" : userImpl.getId());
@@ -67,8 +71,9 @@ public class ReadyPoll implements Poll{
         }
     }
 
-    public List<GroupUser> getGroupUsersFromJson(JSONObject obj, Map<String, Boolean> roles){
+    public List<GroupUser> getGroupUsersFromJson(JSONObject obj, Map<String, String> roles) {
         JSONArray members = obj.getJSONArray("members");
+
         List<GroupUser> guList = new ArrayList<GroupUser>();
         for (int i = 0; i < members.length(); i++) {
             JSONObject item = members.getJSONObject(i);
@@ -77,22 +82,28 @@ public class ReadyPoll implements Poll{
             String username = user.getString("username");
             String id = user.getString("id");
             String dis = String.valueOf(user.get("discriminator")); //Sometimes returns an int or string... just cast the obj to string
+            String avatarId = (user.isNull("avatar") ? "" : user.getString("avatar"));
 
-            GroupUser.Role role = GroupUser.Role.USER;
-            UserImpl userImpl = new UserImpl(username, id, id, api);
-            userImpl.setAvatar(user.isNull("avatar") ? "" : "https://cdn.discordapp.com/avatars/" + id + "/" + user.getString("avatar") + ".jpg");
+            String role = "User";
+            UserImpl userImpl;
+            if (api.isUserKnown(id)) {
+                userImpl = (UserImpl) api.getUserById(id);
+            } else {
+                userImpl = new UserImpl(username, id, id, api);
+                userImpl.setAvatar(user.isNull("avatar") ? "" : "https://cdn.discordapp.com/avatars/" + id + "/" + avatarId + ".jpg");
+            }
 
             if (item.getJSONArray("roles").length() > 0)
-                if (roles.get(item.getJSONArray("roles").opt(0)))
-                    role = GroupUser.Role.ADMIN;
+                    role = roles.get(item.getJSONArray("roles").opt(0));
 
             guList.add(new GroupUser(userImpl, role, dis));
         }
         return guList;
     }
+
     public void setupServers(JSONObject key) {
         JSONArray guids = key.getJSONArray("guilds");
-        for (int i = 0; i <  guids.length(); i++) {
+        for (int i = 0; i < guids.length(); i++) {
             JSONObject item = guids.getJSONObject(i);
 
             ServerImpl server = new ServerImpl(item.getString("id"), api);
@@ -101,12 +112,12 @@ public class ReadyPoll implements Poll{
             server.setCreatorId(item.getString("owner_id"));
             server.setAvatar(item.isNull("icon") ? "" : "https://cdn.discordapp.com/icons/" + server.getId() + "/" + item.getString("icon") + ".jpg");
 
-            HashMap<String, Boolean> roles = new HashMap<String, Boolean>();
+            HashMap<String, String> roles = new HashMap<>();
             JSONArray rolesArray = item.getJSONArray("roles");
 
             for (int ia = 0; ia < rolesArray.length(); ia++) {
                 JSONObject roleObj = rolesArray.getJSONObject(ia);
-                roles.put(roleObj.getString("id"), roleObj.getString("name").contains("admin") ? true : false);
+                roles.put(roleObj.getString("id"), roleObj.getString("name"));
             }
 
             server.getConnectedClients().addAll(getGroupUsersFromJson(item, roles));
@@ -118,14 +129,15 @@ public class ReadyPoll implements Poll{
                 if (!channel.getString("type").equals("text"))
                     continue;
 
-                GroupImpl group = new GroupImpl(channel.getString("id"), server, api);
+                GroupImpl group = new GroupImpl(channel.getString("id"), channel.getString("id"), server, api);
                 group.setName(channel.getString("name"));
                 server.getGroups().add(group);
             }
             api.getAvailableServers().add(server);
         }
     }
-    public void stop(){
+
+    public void stop() {
         if (thread != null)
             thread.stop();
     }

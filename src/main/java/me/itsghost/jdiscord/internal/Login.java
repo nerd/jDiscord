@@ -1,7 +1,7 @@
 package me.itsghost.jdiscord.internal;
 
 import lombok.Data;
-import me.itsghost.jdiscord.DiscordAPI;
+import me.itsghost.jdiscord.DiscordAPIImpl;
 import me.itsghost.jdiscord.exception.BadUsernamePasswordException;
 import me.itsghost.jdiscord.exception.DiscordFailedToConnectException;
 import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;
@@ -18,14 +18,15 @@ public class Login {
     private String username;
     private String password;
     private String token;
-    public void process(DiscordAPI api) throws BadUsernamePasswordException, DiscordFailedToConnectException {
+
+    public void process(DiscordAPIImpl api) throws BadUsernamePasswordException, DiscordFailedToConnectException {
         api.log("Attempting to login!");
 
         JSONObject outJson = getTokens(api);
 
         if (outJson.isNull("token"))
             throw new BadUsernamePasswordException();
-        
+
         token = outJson.getString("token");
 
         api.log("Logged in and starting session!");
@@ -34,22 +35,23 @@ public class Login {
         api.setRequestManager(new RequestManager(api));
         WebSocketClient socket = api.getRequestManager().getSocketClient();
 
-        while (!socket.loaded){
-            try{
+        while (!socket.loaded) {
+            try {
                 Thread.sleep(200);
-            }catch(Exception e){}
+            } catch (Exception e) {
+            }
         }
 
         socket.send(getPCMetadata());
     }
-    
-    public JSONObject getTokens(DiscordAPI api) throws DiscordFailedToConnectException{
+
+    public JSONObject getTokens(DiscordAPIImpl api) throws DiscordFailedToConnectException {
         PacketBuilder pb = new PacketBuilder(api);
         pb.setSendLoginHeaders(false);
         pb.setData(new JSONObject().put("email", username).put("password", password).toString());
         pb.setUrl("https://discordapp.com/api/auth/login");
         pb.setType(RequestType.POST);
-        
+
         final String out = pb.makeRequest();
 
         if (out == null)
@@ -57,8 +59,8 @@ public class Login {
 
         return new JSONObject(out);
     }
-    
-    public String getPCMetadata(){
+
+    public String getPCMetadata() {
         JSONObject login = new JSONObject();
         login.put("op", 2)
                 .put("d", new JSONObject()

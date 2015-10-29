@@ -1,8 +1,6 @@
 package me.itsghost.jdiscord;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Created by Ghost on 14/10/2015.

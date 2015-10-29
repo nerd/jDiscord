@@ -2,15 +2,13 @@ package me.itsghost.jdiscord.internal.impl;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.itsghost.jdiscord.DiscordAPI;
-import me.itsghost.jdiscord.Group;
-import me.itsghost.jdiscord.GroupUser;
-import me.itsghost.jdiscord.Server;
+import me.itsghost.jdiscord.DiscordAPIImpl;
 import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;
 import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;
-import me.itsghost.jdiscord.internal.impl.GroupImpl;
-import me.itsghost.jdiscord.internal.impl.UserImpl;
 import me.itsghost.jdiscord.message.Message;
+import me.itsghost.jdiscord.talkable.Group;
+import me.itsghost.jdiscord.talkable.GroupUser;
+import me.itsghost.jdiscord.talkable.User;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,26 +17,39 @@ import org.json.JSONObject;
  * Created by Ghost on 14/10/2015.
  */
 public class MessageImpl implements Message {
-    @Getter @Setter private String message;
-    @Getter @Setter private String id;
-    @Getter @Setter private GroupUser sender;
-    @Getter @Setter private String groupId;
-    @Getter @Setter private JSONArray mentions = new JSONArray();
-    @Getter @Setter private boolean edited = false;
-    private DiscordAPI api;
-    public MessageImpl(String message, String id, String groupId, DiscordAPI api){
+    @Getter
+    @Setter
+    private String message;
+    @Getter
+    @Setter
+    private String id;
+    @Getter
+    @Setter
+    private User sender;
+    @Getter
+    @Setter
+    private String groupId;
+    @Getter
+    @Setter
+    private JSONArray mentions = new JSONArray();
+    @Getter
+    @Setter
+    private boolean edited = false;
+    private DiscordAPIImpl api;
+
+    public MessageImpl(String message, String id, String groupId, DiscordAPIImpl api) {
         this.message = message;
         this.id = id;
         this.groupId = groupId;
         this.api = api;
     }
 
-    public MessageImpl(String message){
+    public MessageImpl(String message) {
         this.message = message;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return message;
     }
 
@@ -60,7 +71,7 @@ public class MessageImpl implements Message {
         pb.makeRequest();
     }
 
-    public void applyUserTag(String username, Group server){
+    public void applyUserTag(String username, Group server) {
         GroupUser gp = server.getServer().getGroupUserByUsername(username);
         if (gp == null)
             return;

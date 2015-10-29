@@ -24,7 +24,8 @@ public class EventManager {
                             System.out.println("Couldn't run event!");
                         }
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
         }
 

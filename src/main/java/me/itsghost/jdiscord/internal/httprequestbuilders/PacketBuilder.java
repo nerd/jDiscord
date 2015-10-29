@@ -2,8 +2,7 @@ package me.itsghost.jdiscord.internal.httprequestbuilders;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import me.itsghost.jdiscord.DiscordAPI;
+import me.itsghost.jdiscord.DiscordAPIImpl;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -14,25 +13,45 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class PacketBuilder {
-    protected DiscordAPI api;
+    protected DiscordAPIImpl api;
     //TODO: Recode -> this is from an older version of jSkype
-    @Getter @Setter protected String data = "";
-    @Getter @Setter protected String url = "";
-    @Getter @Setter protected RequestType type = null;
-    @Getter @Setter protected Boolean isForm = false;
-    @Getter protected ArrayList<Header> headers = new ArrayList<Header>();
-    @Getter protected HttpURLConnection con;
-    @Getter @Setter protected boolean sendLoginHeaders = true;
-    @Getter @Setter protected boolean file = false;
-    @Getter @Setter protected int code = 200;
-    @Getter @Setter protected String cookies = "";
-    public PacketBuilder(DiscordAPI api) {
+    @Getter
+    @Setter
+    protected String data = "";
+    @Getter
+    @Setter
+    protected String url = "";
+    @Getter
+    @Setter
+    protected RequestType type = null;
+    @Getter
+    @Setter
+    protected Boolean isForm = false;
+    @Getter
+    protected ArrayList<Header> headers = new ArrayList<Header>();
+    @Getter
+    protected HttpURLConnection con;
+    @Getter
+    @Setter
+    protected boolean sendLoginHeaders = true;
+    @Getter
+    @Setter
+    protected boolean file = false;
+    @Getter
+    @Setter
+    protected int code = 200;
+    @Getter
+    @Setter
+    protected String cookies = "";
+
+    public PacketBuilder(DiscordAPIImpl api) {
         this.api = api;
     }
 
     @Deprecated
-    protected void addLogin(DiscordAPI skype) {
-        addHeader(new Header("authorization", skype.getLoginTokens().getToken()));}
+    protected void addLogin(DiscordAPIImpl skype) {
+        addHeader(new Header("authorization", skype.getLoginTokens().getToken()));
+    }
 
     public void addHeader(Header header) {
         headers.add(header);
@@ -45,7 +64,7 @@ public class PacketBuilder {
 
             con.setRequestMethod(type.toString().equals("PATCH") ? "POST" : type.toString());
 
-            if (type == RequestType.PATCH){
+            if (type == RequestType.PATCH) {
                 try {
                     // apaches api isn't working very well for me
                     // and java doesn't support patch... so why
@@ -56,10 +75,10 @@ public class PacketBuilder {
                     String inputLine;
                     StringBuffer response = new StringBuffer();
                     int lastCount = 0;
-                    out.writeBytes("PATCH " + url +" HTTP/1.1\n" +
+                    out.writeBytes("PATCH " + url + " HTTP/1.1\n" +
                             "Host: discordapp.com\n" +
                             "Connection: keep-alive\n" +
-                            "Content-Length: "+ data.length() + "\n" +
+                            "Content-Length: " + data.length() + "\n" +
                             "Origin: http://discordapp.com\n" +
                             "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36 OPR/31.0.1889.151\n" +
                             "Content-Type: application/json\n" +
@@ -68,7 +87,7 @@ public class PacketBuilder {
 
                     return null;
 
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                     api.log("================================================");
                     api.log("=========Unable to request discord.com =========");
@@ -117,9 +136,9 @@ public class PacketBuilder {
                 //Debug info
                 if (api.isDebugMode()) {
                     for (StackTraceElement st : Thread.currentThread().getStackTrace())
-                        System.out.println(st);
+                        //      System.out.println(st);
 
-                    api.log("Error contacting skype\nUrl: " + url + "\nCode: " + code + "\nData: " + data + "\nType: " + type);
+                        api.log("Error contacting skype\nUrl: " + url + "\nCode: " + code + "\nData: " + data + "\nType: " + type);
                     for (Header header : headers)
                         api.log(header.getType() + ": " + header.getData());
                 }
