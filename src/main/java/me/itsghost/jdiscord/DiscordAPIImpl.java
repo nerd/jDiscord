@@ -58,7 +58,7 @@ public class DiscordAPIImpl implements DiscordAPI {
 
     public void log(String log) {
         if (allowLogMessages)
-            System.out.println("DiscordAPIImpl: " + log);
+            System.out.println("DiscordAPI: " + log);
     }
 
     public Group getGroupById(String id) {

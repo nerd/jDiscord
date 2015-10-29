@@ -33,7 +33,7 @@ public class GroupImpl implements Group, Talkable {
 
     @Override
     public String toString() {
-        return id;
+        return name;
     }
 
 
@@ -93,14 +93,16 @@ public class GroupImpl implements Group, Talkable {
     private void updateId() {
         if (id.equals(api.getSelfInfo().getId()))
             return;
+
         PacketBuilder pb = new PacketBuilder(api);
         pb.setUrl("https://discordapp.com/api/users/" + api.getSelfInfo().getId() + "/channels");
         pb.setType(RequestType.POST);
         pb.setData(new JSONObject().put("recipient_id", id).toString());
         String a = pb.makeRequest();
+
         if (a == null)
             return;
-        id = new JSONObject(a).getString("id");
 
+        id = new JSONObject(a).getString("id");
     }
 }

@@ -16,6 +16,7 @@ public class NewContactOrGroupPoll implements Poll {
     public void process(JSONObject content, JSONObject rawRequest, Server server) {
         if (content.getBoolean("is_private")) {
             String cid = content.getString("id");
+
             JSONObject recp = content.getJSONObject("recipient");
             String id = recp.getString("id");
             String avatarId = recp.getString("avatar");

@@ -28,11 +28,13 @@ public class ReadyPoll implements Poll {
     public void process(JSONObject content, JSONObject rawRequest, Server server) {
         SelfData data = new SelfData();
         JSONObject userDataJson = content.getJSONObject("user");
+
         data.setUsername(userDataJson.getString("username"));
         data.setEmail(userDataJson.getString("email"));
         data.setId(userDataJson.getString("id"));
         data.setAvatar("https://cdn.discordapp.com/avatars/" + data.getId() + "/" + userDataJson.getString("avatar") + ".jpg");
         data.setAvatarId(userDataJson.getString("avatar"));
+
         api.setSelfInfo(data);
 
         thread = new Thread(() -> {
@@ -45,6 +47,7 @@ public class ReadyPoll implements Poll {
                 }
             }
         });
+
         thread.start();
 
         setupServers(content);
@@ -57,8 +60,9 @@ public class ReadyPoll implements Poll {
     public void setupContacts(JSONObject key) {
         JSONArray array = key.getJSONArray("private_channels");
         for (int i = 0; i < array.length(); i++) {
-            JSONObject contact = array.getJSONObject(i).getJSONObject("recipient");
             JSONObject item = array.getJSONObject(i);
+            JSONObject contact = item.getJSONObject("recipient");
+
             String id = contact.getString("id");
 
             if (item.getString("id").equals(api.getSelfInfo().getId()))
@@ -67,14 +71,15 @@ public class ReadyPoll implements Poll {
             UserImpl userImpl = new UserImpl(contact.getString("username"), id, item.getString("id"), api);
             userImpl.setAvatar(contact.isNull("avatar") ? "" : "https://cdn.discordapp.com/avatars/" + id + "/" + contact.getString("avatar") + ".jpg");
             userImpl.setAvatarId(contact.isNull("avatar") ? "" : userImpl.getId());
+
             api.getAvailableDms().add(userImpl);
         }
     }
 
     public List<GroupUser> getGroupUsersFromJson(JSONObject obj, Map<String, String> roles) {
         JSONArray members = obj.getJSONArray("members");
+        List<GroupUser> guList = new ArrayList<>();
 
-        List<GroupUser> guList = new ArrayList<GroupUser>();
         for (int i = 0; i < members.length(); i++) {
             JSONObject item = members.getJSONObject(i);
             JSONObject user = item.getJSONObject("user");
@@ -86,6 +91,7 @@ public class ReadyPoll implements Poll {
 
             String role = "User";
             UserImpl userImpl;
+
             if (api.isUserKnown(id)) {
                 userImpl = (UserImpl) api.getUserById(id);
             } else {
@@ -102,9 +108,9 @@ public class ReadyPoll implements Poll {
     }
 
     public void setupServers(JSONObject key) {
-        JSONArray guids = key.getJSONArray("guilds");
-        for (int i = 0; i < guids.length(); i++) {
-            JSONObject item = guids.getJSONObject(i);
+        JSONArray guilds = key.getJSONArray("guilds");
+        for (int i = 0; i < guilds.length(); i++) {
+            JSONObject item = guilds.getJSONObject(i);
 
             ServerImpl server = new ServerImpl(item.getString("id"), api);
             server.setTopic(item.getString("name"));

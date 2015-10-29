@@ -71,10 +71,6 @@ public class PacketBuilder {
                     // not completely recode it for what we need?
                     Socket clientSocket = new Socket("discordapp.com", 80);
                     DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
-                    BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-                    int lastCount = 0;
                     out.writeBytes("PATCH " + url + " HTTP/1.1\n" +
                             "Host: discordapp.com\n" +
                             "Connection: keep-alive\n" +
@@ -84,7 +80,7 @@ public class PacketBuilder {
                             "Content-Type: application/json\n" +
                             "Accept: */*\n" +
                             "authorization: " + api.getLoginTokens().getToken() + "\n\n" + data);
-
+                    out.close();
                     return null;
 
                 } catch (Exception e) {
