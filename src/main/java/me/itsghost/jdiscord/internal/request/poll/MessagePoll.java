@@ -19,26 +19,30 @@ public class MessagePoll implements Poll {
 
     @Override
     public void process(JSONObject content, JSONObject rawRequest, Server server) {
-        String id = content.getString("channel_id");
-        String authorId = content.getJSONObject("author").getString("id");
+        try {
+            String id = content.getString("channel_id");
+            String authorId = content.getJSONObject("author").getString("id");
 
-        Group group = api.getGroupById(id);
-        User user = api.getUserById(authorId);
+            Group group = api.getGroupById(id);
+            User user = api.getUserById(authorId);
 
-        group = (group == null) ? api.getGroupById(authorId) : group;
-        user = (user == null) ? api.getBlankUser() : user;
+            group = (group == null) ? api.getGroupById(authorId) : group;
+            user = (user == null) ? api.getBlankUser() : user;
 
-        String msgContent = StringEscapeUtils.unescapeJson(content.getString("content"));
-        String msgId = content.getString("id");
+            String msgContent = StringEscapeUtils.unescapeJson(content.getString("content"));
+            String msgId = content.getString("id");
 
-        MessageImpl msg = new MessageImpl(msgContent, msgId, id, api);
-        msg.setSender(user);
+            MessageImpl msg = new MessageImpl(msgContent, msgId, id, api);
+            msg.setSender(user);
 
-        if (!content.isNull("edited_timestamp"))
-            msg.setEdited(true);
+            if (!content.isNull("edited_timestamp"))
+                msg.setEdited(true);
 
-        GroupUser gUser = (group.getServer() == null) ? new GroupUser(user, "User", user.getId()) : group.getServer().getGroupUserById(authorId);
+            GroupUser gUser = (group.getServer() == null) ? new GroupUser(user, "User", user.getId()) : group.getServer().getGroupUserById(authorId);
 
-        api.getEventManager().executeEvent(new UserChatEvent(group, gUser, msg));
+            api.getEventManager().executeEvent(new UserChatEvent(group, gUser, msg));
+        }catch(Exception e){
+            api.log("Failed to process message:\n >" + content);
+        }
     }
 }
