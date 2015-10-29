@@ -1,10 +1,10 @@
 #jDiscord
-(Very early in development -- currently concept code)
-Again, if you can not read, this is concept code that shouldn't really be released. If you are complaining about it being broken and bad, learn what the definition of "concept" is. I'm still working out what are the best ways to handle users/groups. 
+
 
 #Download
 
 We're just doing testing some stuff right now!
+You'll have to fork it and compile it yourself.
 
 #Getting a discord api instance
 
