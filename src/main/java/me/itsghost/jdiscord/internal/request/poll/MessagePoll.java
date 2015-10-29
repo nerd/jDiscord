@@ -37,7 +37,8 @@ public class MessagePoll implements Poll {
         if (!content.isNull("edited_timestamp"))
             msg.setEdited(true);
 
-        GroupUser gUser = (group.getServer() == null) ? new GroupUser(user, user.getId(), user.getId()) : group.getServer().getGroupUserById(authorId);
+        GroupUser gUser = (group.getServer() == null) ? new GroupUser(user, "User", user.getId()) : group.getServer().getGroupUserById(authorId);
+
 
         api.getEventManager().executeEvent(new UserChatEvent(group, gUser, msg));
     }

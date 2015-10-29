@@ -10,7 +10,6 @@ import me.itsghost.jdiscord.message.Message;
 import me.itsghost.jdiscord.message.MessageHistory;
 import me.itsghost.jdiscord.talkable.Group;
 import me.itsghost.jdiscord.talkable.Talkable;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +26,7 @@ public class GroupImpl implements Group, Talkable {
     public GroupImpl(String id, String cid, Server server, DiscordAPIImpl api) {
         this.api = api;
         this.id = id;
+        this.name = id;
         this.cid = cid;
         this.server = server;
     }

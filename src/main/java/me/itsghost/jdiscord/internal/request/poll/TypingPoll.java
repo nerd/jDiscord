@@ -26,7 +26,7 @@ public class TypingPoll implements Poll {
         group = (group == null) ? api.getGroupById(authorId) : group;
         user = (user == null) ? api.getBlankUser() : user;
 
-        GroupUser gUser = (group.getServer() == null) ? new GroupUser(user, user.getId(), user.getId()) : group.getServer().getGroupUserById(authorId);
+        GroupUser gUser = (group.getServer() == null) ? new GroupUser(user, "User", user.getId()) : group.getServer().getGroupUserById(authorId);
 
         api.getEventManager().executeEvent(new UserTypingEvent(group, gUser));
     }

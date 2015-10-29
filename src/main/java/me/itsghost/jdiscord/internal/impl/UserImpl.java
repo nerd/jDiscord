@@ -28,8 +28,11 @@ public class UserImpl implements User, Talkable {
         this.cid = cid;
         this.username = username;
 
-        if (!api.getUserGroups().containsKey(id))
-            api.getUserGroups().put(id, new GroupImpl(id, cid, null, api));
+        if (!api.getUserGroups().containsKey(id)) {
+            GroupImpl group = new GroupImpl(id, cid, null, api);
+            group.setName(username);
+            api.getUserGroups().put(id, group);
+        }
     }
 
     @Override

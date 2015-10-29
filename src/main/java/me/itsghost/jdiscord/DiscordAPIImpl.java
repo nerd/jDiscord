@@ -113,7 +113,9 @@ public class DiscordAPIImpl implements DiscordAPI {
     }
 
     public User getBlankUser(){
-        UserImpl user = new UserImpl("Me", "Me", "Me", this);
+        UserImpl user = new UserImpl(getSelfInfo().getUsername(), getSelfInfo().getId(), "Me", this);
+        user.setAvatarId(getSelfInfo().getAvatarId());
+        user.setAvatar(getSelfInfo().getAvatar());
         return user;
     }
 }
