@@ -36,7 +36,7 @@ public class ExampleListener implements EventListener {
     public ExampleListener(DiscordAPI api){
         this.api = api;
     }
-    public void UserChat(UserChatEvent e){
+    public void userChat(UserChatEvent e){
         if (e.getMsg().getMessage().equals("#ping")){
             e.getGroup().sendMessage(new MessageBuilder()
                     .addString("Yes, ")
@@ -46,7 +46,7 @@ public class ExampleListener implements EventListener {
         }
         System.out.println((e.getMsg().isEdited() ? "# " : "") + "[" + e.getGroup().getName() + "] " + e.getGroupUser() + " > " + e.getMsg().getMessage());
     }
-    public void Typing(UserTypingEvent e){
+    public void typing(UserTypingEvent e){
         System.out.println(e.getGroupUser() + " is typing in " + e.getGroup());
     }
 }
