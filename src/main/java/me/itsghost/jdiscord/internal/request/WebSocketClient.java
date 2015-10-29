@@ -14,14 +14,13 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
     protected Thread thread;
     private DiscordAPIImpl api;
     private String server;
-    //Hackky stuff
     private Poll readyPoll;
     private Poll banPoll;
     private Poll addUserPoll;
     private Poll messagePoll;
     private Poll kickedPoll;
     private Poll typingPoll;
-    private NewContactOrGroupPoll newContactOrGroupPoll;
+    private Poll newContactOrGroupPoll;
 
     public WebSocketClient(DiscordAPIImpl api, String url) {
         super(URI.create(url.replace("wss", "ws"))); //this api doesn't like wss

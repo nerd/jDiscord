@@ -13,28 +13,13 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * Created by Ghost on 14/10/2015.
- */
 public class MessageImpl implements Message {
-    @Getter
-    @Setter
-    private String message;
-    @Getter
-    @Setter
-    private String id;
-    @Getter
-    @Setter
-    private User sender;
-    @Getter
-    @Setter
-    private String groupId;
-    @Getter
-    @Setter
-    private JSONArray mentions = new JSONArray();
-    @Getter
-    @Setter
-    private boolean edited = false;
+    @Getter @Setter private String message;
+    @Getter @Setter private String id;
+    @Getter @Setter private User sender;
+    @Getter @Setter private String groupId;
+    @Getter @Setter private JSONArray mentions = new JSONArray();
+    @Getter @Setter private boolean edited = false;
     private DiscordAPIImpl api;
 
     public MessageImpl(String message, String id, String groupId, DiscordAPIImpl api) {
@@ -76,7 +61,7 @@ public class MessageImpl implements Message {
         if (gp == null)
             return;
         message = message.replace("@" + username, "<@" + gp.getUser().getId() + ">");
-        mentions.put(gp.getUser().getId().toString());
+        mentions.put(gp.getUser().toString());
     }
 
 }

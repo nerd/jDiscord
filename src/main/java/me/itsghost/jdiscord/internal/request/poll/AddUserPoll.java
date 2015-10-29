@@ -7,9 +7,6 @@ import me.itsghost.jdiscord.internal.impl.UserImpl;
 import me.itsghost.jdiscord.talkable.GroupUser;
 import org.json.JSONObject;
 
-/**
- * Created by Ghost on 15/10/2015.
- */
 public class AddUserPoll implements Poll {
     private DiscordAPIImpl api;
 

@@ -6,7 +6,6 @@ import me.itsghost.jdiscord.events.UserBannedEvent;
 import me.itsghost.jdiscord.talkable.GroupUser;
 import org.json.JSONObject;
 
-
 public class BanPoll implements Poll {
     private DiscordAPIImpl api;
 

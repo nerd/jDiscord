@@ -8,8 +8,7 @@ import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;
 import org.json.JSONObject;
 
 public class RequestManager {
-    @Getter
-    private WebSocketClient socketClient;
+    @Getter private WebSocketClient socketClient;
 
     public RequestManager(DiscordAPIImpl api) throws DiscordFailedToConnectException {
         try {

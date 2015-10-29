@@ -23,7 +23,7 @@ public class DiscordAPIImpl implements DiscordAPI {
     @Getter private List<User> availableDms = new ArrayList<User>();
     @Getter private List<Server> availableServers = new ArrayList<Server>();
     @Getter private Map<String, Group> userGroups = new HashMap<String, Group>();
-    @Getter @Setter private boolean debugMode = true;
+    @Getter @Setter private boolean debugMode = false;
     @Getter @Setter private boolean allowLogMessages = true;
     @Getter private EventManager eventManager = new EventManager();
     @Getter @Setter private RequestManager requestManager;

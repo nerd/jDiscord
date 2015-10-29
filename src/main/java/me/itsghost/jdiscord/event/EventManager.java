@@ -6,7 +6,7 @@ import java.util.List;
 
 public class EventManager {
 
-    private final List<EventListener> listeners = new ArrayList<EventListener>();
+    private final List<EventListener> listeners = new ArrayList<>();
 
     public void registerListener(EventListener e) {
         listeners.add(e);

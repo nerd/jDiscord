@@ -15,7 +15,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class GroupImpl implements Group, Talkable {
     @Getter @Setter private String cid;
     @Getter @Setter private String id;

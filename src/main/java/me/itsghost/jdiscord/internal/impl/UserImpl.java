@@ -8,18 +8,11 @@ import me.itsghost.jdiscord.talkable.Talkable;
 import me.itsghost.jdiscord.talkable.User;
 
 public class UserImpl implements User, Talkable {
-    @Getter
-    private String username;
-    @Getter
-    private String id;
-    @Getter
-    private String cid;
-    @Getter
-    @Setter
-    private String avatar;
-    @Getter
-    @Setter
-    private String avatarId;
+    @Getter private String username;
+    @Getter private String id;
+    @Getter private String cid;
+    @Getter @Setter private String avatar;
+    @Getter @Setter private String avatarId;
     private DiscordAPIImpl api;
 
     public UserImpl(String username, String id, String cid, DiscordAPIImpl api) {
@@ -47,6 +40,6 @@ public class UserImpl implements User, Talkable {
 
     @Override
     public boolean equals(Object a){
-        return ((a instanceof String) && ((((String)a).equals(id)) || (((String)a).equals(cid))));
+        return ((a instanceof String) && ((a.equals(id)) || (a.equals(cid))));
     }
 }

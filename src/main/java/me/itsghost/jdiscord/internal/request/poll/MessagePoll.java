@@ -39,7 +39,6 @@ public class MessagePoll implements Poll {
 
         GroupUser gUser = (group.getServer() == null) ? new GroupUser(user, "User", user.getId()) : group.getServer().getGroupUserById(authorId);
 
-
         api.getEventManager().executeEvent(new UserChatEvent(group, gUser, msg));
     }
 }

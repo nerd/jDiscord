@@ -102,8 +102,7 @@ public class PacketBuilder {
                     response.append(inputLine);
                 }
                 in.close();
-                return response.toString() == null ? "" : response.toString();
-
+                return response.toString();
             } else if (code == 204) {
                 return "";
             } else {

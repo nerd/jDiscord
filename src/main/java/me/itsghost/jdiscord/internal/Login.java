@@ -10,9 +10,6 @@ import me.itsghost.jdiscord.internal.request.RequestManager;
 import me.itsghost.jdiscord.internal.request.WebSocketClient;
 import org.json.JSONObject;
 
-/**
- * Created by Ghost on 14/10/2015.
- */
 @Data
 public class Login {
     private String username;
