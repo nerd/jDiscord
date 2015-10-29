@@ -2,6 +2,7 @@ package me.itsghost.jdiscord;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import me.itsghost.jdiscord.event.EventManager;
 import me.itsghost.jdiscord.exception.BadUsernamePasswordException;
 import me.itsghost.jdiscord.exception.DiscordFailedToConnectException;

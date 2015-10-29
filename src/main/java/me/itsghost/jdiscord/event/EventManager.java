@@ -12,7 +12,7 @@ public class EventManager {
         listeners.add(e);
     }
 
-    public void executeEvent(Event e) {
+    public void executeEvent(Object e) {
         for (EventListener ClassO : listeners) {
             for (Method m : ClassO.getClass().getMethods()) {
                 try {

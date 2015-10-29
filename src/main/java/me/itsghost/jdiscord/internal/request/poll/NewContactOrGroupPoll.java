@@ -29,6 +29,5 @@ public class NewContactOrGroupPoll implements Poll {
 
             api.updateContact(userImpl);
         }
-
     }
 }

@@ -5,9 +5,6 @@ import me.itsghost.jdiscord.talkable.GroupUser;
 
 import java.util.List;
 
-/**
- * Created by Ghost on 14/10/2015.
- */
 public interface Server {
     String getId();
 

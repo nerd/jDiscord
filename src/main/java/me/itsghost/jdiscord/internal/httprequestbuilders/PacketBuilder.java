@@ -15,34 +15,16 @@ import java.util.ArrayList;
 public class PacketBuilder {
     protected DiscordAPIImpl api;
     //TODO: Recode -> this is from an older version of jSkype
-    @Getter
-    @Setter
-    protected String data = "";
-    @Getter
-    @Setter
-    protected String url = "";
-    @Getter
-    @Setter
-    protected RequestType type = null;
-    @Getter
-    @Setter
-    protected Boolean isForm = false;
-    @Getter
-    protected ArrayList<Header> headers = new ArrayList<Header>();
-    @Getter
-    protected HttpURLConnection con;
-    @Getter
-    @Setter
-    protected boolean sendLoginHeaders = true;
-    @Getter
-    @Setter
-    protected boolean file = false;
-    @Getter
-    @Setter
-    protected int code = 200;
-    @Getter
-    @Setter
-    protected String cookies = "";
+    @Getter @Setter protected String data = "";
+    @Getter @Setter protected String url = "";
+    @Getter @Setter protected RequestType type = null;
+    @Getter @Setter protected Boolean isForm = false;
+    @Getter protected ArrayList<Header> headers = new ArrayList<Header>();
+    @Getter protected HttpURLConnection con;
+    @Getter @Setter protected boolean sendLoginHeaders = true;
+    @Getter @Setter protected boolean file = false;
+    @Getter @Setter protected int code = 200;
+    @Getter @Setter protected String cookies = "";
 
     public PacketBuilder(DiscordAPIImpl api) {
         this.api = api;
@@ -131,12 +113,9 @@ public class PacketBuilder {
 
                 //Debug info
                 if (api.isDebugMode()) {
-                    for (StackTraceElement st : Thread.currentThread().getStackTrace())
-                        //      System.out.println(st);
-
-                        api.log("Error contacting skype\nUrl: " + url + "\nCode: " + code + "\nData: " + data + "\nType: " + type);
                     for (Header header : headers)
                         api.log(header.getType() + ": " + header.getData());
+                    api.log("Error contacting skype\nUrl: " + url + "\nCode: " + code + "\nData: " + data + "\nType: " + type);
                 }
                 return null;
             }
