@@ -51,7 +51,7 @@ public class ServerImpl implements Server {
     @Override
     public GroupUser getGroupUserByUsername(String id) {
         for (GroupUser user : connectedClients)
-            if (user.getUser().getId().equals(id))
+            if (user.getUser().getUsername().equals(id))
                 return user;
         return null;
 
