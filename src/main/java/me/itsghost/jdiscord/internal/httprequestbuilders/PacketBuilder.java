@@ -63,6 +63,7 @@ public class PacketBuilder {
                             "Accept: */*\n" +
                             "authorization: " + api.getLoginTokens().getToken() + "\n\n" + data);
                     out.close();
+                    clientSocket.close();
                     return null;
 
                 } catch (Exception e) {

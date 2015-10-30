@@ -3,8 +3,24 @@
 
 #Download
 
-We're just doing testing some stuff right now!
-You'll have to fork it and compile it yourself.
+Maven: http://itsghost.me/maven
+
+Repository:
+```
+ <repository>
+  <id>xyz.gghost</id>
+  <url>http://gghost.xyz/maven/</url>
+</repository>
+```
+Dependency:
+```
+<dependency>
+  <groupId>xyz.gghost</groupId>
+  <artifactId>jdiscord</artifactId>
+  <version>1</version>
+  <scope>compile</scope>
+</dependency>
+```
 
 #Getting a discord api instance
 

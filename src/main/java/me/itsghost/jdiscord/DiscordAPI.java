@@ -27,5 +27,6 @@ public interface DiscordAPI {
     List<User> getAvailableDms();
     List<Server> getAvailableServers();
     Map<String, Group> getUserGroups();
-    SelfData getSelfData();
+    SelfData getSelfInfo();
+
 }
