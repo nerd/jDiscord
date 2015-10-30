@@ -1,18 +1,28 @@
-package me.itsghost.jdiscord;
+package me.itsghost.jdiscord.internal.impl;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import me.itsghost.jdiscord.AccountManager;
+import me.itsghost.jdiscord.DiscordAPI;
+import me.itsghost.jdiscord.SelfData;
+import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.event.EventManager;
 import me.itsghost.jdiscord.exception.BadUsernamePasswordException;
 import me.itsghost.jdiscord.exception.DiscordFailedToConnectException;
 import me.itsghost.jdiscord.exception.NoLoginDetailsException;
 import me.itsghost.jdiscord.internal.Login;
-import me.itsghost.jdiscord.internal.impl.UserImpl;
 import me.itsghost.jdiscord.internal.request.RequestManager;
 import me.itsghost.jdiscord.talkable.Group;
 import me.itsghost.jdiscord.talkable.User;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +40,9 @@ public class DiscordAPIImpl implements DiscordAPI {
     @Getter @Setter private SelfData selfInfo;
     @Getter @Setter private boolean loaded = false;
     @Getter @Setter private String as = "";
+    @Getter @Setter private AccountManager accountManager = new AccountManagerImpl(this);
+    @Getter private final Long startedTime = System.currentTimeMillis();
+
 
     public DiscordAPIImpl(String email, String password) {
         loginTokens.setUsername(email);

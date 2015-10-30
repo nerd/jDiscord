@@ -1,13 +1,16 @@
 package me.itsghost.jdiscord.internal.request.poll;
 
-import me.itsghost.jdiscord.DiscordAPIImpl;
+import me.itsghost.jdiscord.OnlineStatus;
+import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
 import me.itsghost.jdiscord.SelfData;
 import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.events.APILoadedEvent;
 import me.itsghost.jdiscord.internal.impl.GroupImpl;
 import me.itsghost.jdiscord.internal.impl.ServerImpl;
 import me.itsghost.jdiscord.internal.impl.UserImpl;
+import me.itsghost.jdiscord.internal.utils.GameIdUtils;
 import me.itsghost.jdiscord.talkable.GroupUser;
+import me.itsghost.jdiscord.talkable.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,6 +29,9 @@ public class ReadyPoll implements Poll {
 
     @Override
     public void process(JSONObject content, JSONObject rawRequest, Server server) {
+        if (api.isLoaded())
+            return; //we reconnected
+
         SelfData data = new SelfData();
         JSONObject userDataJson = content.getJSONObject("user");
 
@@ -107,6 +113,31 @@ public class ReadyPoll implements Poll {
         return guList;
     }
 
+    public List<GroupUser> updateOnlineStatus(List<GroupUser> users, JSONArray presences){
+        for (int i = 0; i < presences.length(); i++) {
+            JSONObject item = presences.getJSONObject(i);
+            for (GroupUser gUser : users){
+                User user = gUser.getUser();
+                if (user.equals(item.getJSONObject("user").getString("id"))){
+                    String game = item.isNull("game_id") ? "ready to play" : GameIdUtils.getGameFromId(item.getInt("game_id"));
+                    OnlineStatus status = OnlineStatus.fromName(item.getString("status"));
+                    ((UserImpl)user).setGame(game);
+                    ((UserImpl)user).setOnlineStatus(status);
+                }
+            }
+        }
+        return users;
+    }
+
+    public HashMap<String, String> getRoles(JSONArray rolesArray){
+        HashMap<String, String> roles = new HashMap<>();
+        for (int i = 0; i < rolesArray.length(); i++) {
+            JSONObject roleObj = rolesArray.getJSONObject(i);
+            roles.put(roleObj.getString("id"), roleObj.getString("name"));
+        }
+        return roles;
+    }
+
     public void setupServers(JSONObject key) {
         JSONArray guilds = key.getJSONArray("guilds");
         for (int i = 0; i < guilds.length(); i++) {
@@ -118,15 +149,10 @@ public class ReadyPoll implements Poll {
             server.setCreatorId(item.getString("owner_id"));
             server.setAvatar(item.isNull("icon") ? "" : "https://cdn.discordapp.com/icons/" + server.getId() + "/" + item.getString("icon") + ".jpg");
 
-            HashMap<String, String> roles = new HashMap<>();
-            JSONArray rolesArray = item.getJSONArray("roles");
+            List<GroupUser> users = getGroupUsersFromJson(item, getRoles(item.getJSONArray("roles")));
+            users = updateOnlineStatus(users, item.getJSONArray("presences"));
 
-            for (int ia = 0; ia < rolesArray.length(); ia++) {
-                JSONObject roleObj = rolesArray.getJSONObject(ia);
-                roles.put(roleObj.getString("id"), roleObj.getString("name"));
-            }
-
-            server.getConnectedClients().addAll(getGroupUsersFromJson(item, roles));
+            server.getConnectedClients().addAll(users);
 
             JSONArray channels = item.getJSONArray("channels");
             for (int ia = 0; ia < channels.length(); ia++) {

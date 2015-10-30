@@ -1,5 +1,7 @@
 package me.itsghost.jdiscord;
 
+import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
+
 public class DiscordBuilder {
 
     private String email;

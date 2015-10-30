@@ -1,7 +1,7 @@
 package me.itsghost.jdiscord.internal;
 
 import lombok.Data;
-import me.itsghost.jdiscord.DiscordAPIImpl;
+import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
 import me.itsghost.jdiscord.exception.BadUsernamePasswordException;
 import me.itsghost.jdiscord.exception.DiscordFailedToConnectException;
 import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;

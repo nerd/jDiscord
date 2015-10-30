@@ -2,7 +2,6 @@ package me.itsghost.jdiscord.internal.impl;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.itsghost.jdiscord.DiscordAPIImpl;
 import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;
 import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;

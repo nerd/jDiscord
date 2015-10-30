@@ -2,7 +2,7 @@ package me.itsghost.jdiscord.internal.httprequestbuilders;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.itsghost.jdiscord.DiscordAPIImpl;
+import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

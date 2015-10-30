@@ -1,7 +1,8 @@
 package me.itsghost.jdiscord.internal.request;
 
 
-import me.itsghost.jdiscord.DiscordAPIImpl;
+import me.itsghost.jdiscord.internal.impl.AccountManagerImpl;
+import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
 import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.internal.request.poll.*;
 import org.java_websocket.handshake.ServerHandshake;
@@ -21,6 +22,8 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
     private Poll kickedPoll;
     private Poll typingPoll;
     private Poll newContactOrGroupPoll;
+    private Poll statusPoll;
+    private Poll updateSettings;
 
     public WebSocketClient(DiscordAPIImpl api, String url) {
         super(URI.create(url.replace("wss", "ws"))); //this api doesn't like wss
@@ -32,6 +35,8 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
         kickedPoll = new KickPoll(api);
         typingPoll = new TypingPoll(api);
         newContactOrGroupPoll = new NewContactOrGroupPoll(api);
+        statusPoll = new StatusPoll(api);
+        updateSettings = new UpdateSettings(api);
         this.connect();
     }
 
@@ -46,6 +51,18 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
         if ((code == 1000) && (server != null)) {
             api.log("Your data is on a different server");
             api.log("This error is deprecated... if you're seening this, report it.");
+        }
+        if (code == 4001){
+            System.out.println("\n");
+            api.log("Uh... Some other client sent invalid data and timed everyone out!");
+            try {
+                api.getLoginTokens().process(api);
+             } catch(Exception e){
+                api.log("Failed to reconnect: " + e.getCause());
+                api.stop();
+            } finally{
+                System.out.println("\n");
+            }
         }
     }
 
@@ -86,11 +103,16 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
                     typingPoll.process(key, obj, server);
                     break;
                 case "CHANNEL_CREATE":
-                    api.log(key.toString());
                     newContactOrGroupPoll.process(key, obj, server);
                     break;
+                case "PRESENCE_UPDATE":
+                    statusPoll.process(key, obj, server);
+                    break;
+                case "USER_UPDATE":
+                    updateSettings.process(key, obj, server);
+                    break;
                 default:
-                    api.log("Unknown type " + type);
+                    api.log("Unknown type " + type + "\n >" + obj);
                     break;
             }
         } catch (Exception e) {

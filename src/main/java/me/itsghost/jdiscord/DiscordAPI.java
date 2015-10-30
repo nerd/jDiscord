@@ -28,5 +28,5 @@ public interface DiscordAPI {
     List<Server> getAvailableServers();
     Map<String, Group> getUserGroups();
     SelfData getSelfInfo();
-
+    AccountManager getAccountManager();
 }

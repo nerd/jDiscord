@@ -30,7 +30,7 @@ public class MessageBuilder {
     }
 
     public MessageBuilder addUserTag(String username, Group server) {
-        sb.append("@" + username);
+        addString("@" + username);
 
         GroupUser gp = server.getServer().getGroupUserByUsername(username);
         if (gp == null)

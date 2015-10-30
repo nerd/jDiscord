@@ -1,5 +1,7 @@
 package me.itsghost.jdiscord.talkable;
 
+import me.itsghost.jdiscord.OnlineStatus;
+
 public interface User {
     Group getGroup();
 
@@ -8,4 +10,8 @@ public interface User {
     String getUsername();
 
     String getId();
+
+    String getGame();
+
+    OnlineStatus getOnlineStatus();
 }

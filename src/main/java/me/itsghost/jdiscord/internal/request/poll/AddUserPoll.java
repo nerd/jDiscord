@@ -1,6 +1,6 @@
 package me.itsghost.jdiscord.internal.request.poll;
 
-import me.itsghost.jdiscord.DiscordAPIImpl;
+import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
 import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.events.UserJoinedChat;
 import me.itsghost.jdiscord.internal.impl.UserImpl;

@@ -2,7 +2,7 @@ package me.itsghost.jdiscord.internal.impl;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.itsghost.jdiscord.DiscordAPIImpl;
+import me.itsghost.jdiscord.OnlineStatus;
 import me.itsghost.jdiscord.talkable.Group;
 import me.itsghost.jdiscord.talkable.Talkable;
 import me.itsghost.jdiscord.talkable.User;
@@ -13,6 +13,8 @@ public class UserImpl implements User, Talkable {
     @Getter private String cid;
     @Getter @Setter private String avatar;
     @Getter @Setter private String avatarId;
+    @Getter @Setter private String game;
+    @Getter @Setter private OnlineStatus onlineStatus;
     private DiscordAPIImpl api;
 
     public UserImpl(String username, String id, String cid, DiscordAPIImpl api) {

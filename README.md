@@ -17,7 +17,7 @@ Dependency:
 <dependency>
   <groupId>xyz.gghost</groupId>
   <artifactId>jdiscord</artifactId>
-  <version>1</version>
+  <version>1.1</version>
   <scope>compile</scope>
 </dependency>
 ```
