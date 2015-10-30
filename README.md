@@ -83,3 +83,5 @@ Simple, either you're doing something before the api has loaded fully (APILoaded
 - lombok
 - org.json
 - org.java-websocket
+- http://itsghost.me/commons-codec-1.10.jar
+- commons-io 2.2 (might not be required)
