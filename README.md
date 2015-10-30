@@ -42,6 +42,7 @@ api.login();
 - UserJoinedEvent
 - UserKickedEvent
 - UserTypingEvent
+- UserOnlineStatusChangedEvent
 
 #Using the event manager
 In order to listen for an event, create a class that implements EventListener, and register it by calling "api.getEventManager().registerListener(new YourListener(api));" All event's can be found the "me.itsghost.jdiscord.events" package and in the event section of this readme file. 
