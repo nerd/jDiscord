@@ -28,6 +28,8 @@ public class GameIdUtils {
         pb.setSendLoginHeaders(false);
         pb.setType(RequestType.GET);
         pb.setUrl("http://pastebin.com/raw.php?i=e94CkJpk");
-        return pb.makeRequest();
+        GAMEARRAY = pb.makeRequest();
+        
+        return GAMEARRAY;
     }
 }
