@@ -38,8 +38,8 @@ public class ReadyPoll implements Poll {
         data.setUsername(userDataJson.getString("username"));
         data.setEmail(userDataJson.getString("email"));
         data.setId(userDataJson.getString("id"));
-        data.setAvatar("https://cdn.discordapp.com/avatars/" + data.getId() + "/" + userDataJson.getString("avatar") + ".jpg");
-        data.setAvatarId(userDataJson.getString("avatar"));
+        data.setAvatar("https://cdn.discordapp.com/avatars/" + data.getId() + "/" + (userDataJson.isNull("avatar") ? "" : userDataJson.getString("avatar")) + ".jpg");
+        data.setAvatarId((userDataJson.isNull("avatar") ? "" : userDataJson.getString("avatar")));
 
         api.setSelfInfo(data);
 

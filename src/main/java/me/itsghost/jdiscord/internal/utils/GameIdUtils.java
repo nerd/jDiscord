@@ -29,7 +29,7 @@ public class GameIdUtils {
         pb.setType(RequestType.GET);
         pb.setUrl("http://pastebin.com/raw.php?i=e94CkJpk");
         GAMEARRAY = pb.makeRequest();
-        
+
         return GAMEARRAY;
     }
 }

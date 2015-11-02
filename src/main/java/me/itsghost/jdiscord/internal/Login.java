@@ -34,7 +34,7 @@ public class Login {
 
         while (!socket.loaded) {
             try {
-                Thread.sleep(200); //200ms
+                Thread.sleep(200);
             } catch (Exception e) {
             }
         }
