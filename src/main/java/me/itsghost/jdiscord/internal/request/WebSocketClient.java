@@ -24,6 +24,11 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
     private Poll newContactOrGroupPoll;
     private Poll statusPoll;
     private Poll updateSettings;
+    private Poll channelRemovePoll;
+    private Poll channelUpdatePoll;
+    private Poll guildAddPoll;
+    private Poll userUpdatePoll;
+    private Poll deletePoll;
 
     public WebSocketClient(DiscordAPIImpl api, String url) {
         super(URI.create(url.replace("wss", "ws"))); //this api doesn't like wss
@@ -37,6 +42,11 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
         newContactOrGroupPoll = new NewContactOrGroupPoll(api);
         statusPoll = new StatusPoll(api);
         updateSettings = new UpdateSettings(api);
+        channelRemovePoll = new ChannelRemove(api);
+        channelUpdatePoll = new ChannelUpdatePoll(api);
+        guildAddPoll = new GuildAdd(api);
+        userUpdatePoll = new UserUpdatePoll(api);
+        deletePoll = new DeleteMessagePoll(api);
         this.connect();
     }
 
@@ -74,7 +84,9 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
                 return;
             JSONObject key = obj.getJSONObject("d");
             String type = obj.getString("t");
-            Server server = key.isNull("guild_id") ? null : api.getGroupById(key.getString("guild_id")).getServer();
+
+            Server a = key.isNull("guild_id") ? null : api.getServerById(key.getString("guild_id"));
+            Server server = key.isNull("guild_id") ? null : (a != null ? a : api.getGroupById(key.getString("guild_id")).getServer());
             switch (type) {
                 case "READY":
                     readyPoll.process(key, obj, server);
@@ -110,6 +122,21 @@ public class WebSocketClient extends org.java_websocket.client.WebSocketClient {
                     break;
                 case "USER_UPDATE":
                     updateSettings.process(key, obj, server);
+                    break;
+                case "CHANNEL_DELETE":
+                    channelRemovePoll.process(key, obj, server);
+                    break;
+                case "CHANNEL_UPDATE":
+                    channelUpdatePoll.process(key, obj, server);
+                    break;
+                case "GUILD_CREATE":
+                    guildAddPoll.process(key, obj, server);
+                    break;
+                case "MESSAGE_DELETE":
+                    userUpdatePoll.process(key, obj, server);
+                    break;
+                case "GUILD_MEMBER_UPDATE":
+                    deletePoll.process(key, obj, server);
                     break;
                 default:
                     api.log("Unknown type " + type + "\n >" + obj);

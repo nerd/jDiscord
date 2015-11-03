@@ -9,12 +9,24 @@
 - Group messaging
 - User talk (edited) event 
 - User join/banned/kicked events
+- And a lot more
+
+#Events
+- AddedToServer (guild)
+- APILoadedEvent
+- ChannelCreatedEvent (group/channel)
+- ChannelDeletedEvent (group/channel)
+- ChannelUpdatedEvent (group/channel)
+- UserBannedEvent
+- UserChatEvent
+- UserJoinedEvent
+- UserKickedEvent
+- UserTypingEvent
+- UserOnlineStatusChangedEvent
+- UserDeletedMessageEvent
 
 #TODO
 - Message history (near enough done)
-- Group deletion (+ event)
-- Removed message event
-- User Promoted Event
 
 #Download
 
@@ -32,7 +44,7 @@ Dependency:
 <dependency>
   <groupId>xyz.gghost</groupId>
   <artifactId>jdiscord</artifactId>
-  <version>1.1</version>
+  <version>1.2</version>
   <scope>compile</scope>
 </dependency>
 ```

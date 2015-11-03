@@ -77,7 +77,7 @@ public class DiscordAPIImpl implements DiscordAPI {
 
     public Group getGroupById(String id) {
         for (User channel : availableDms)
-            if (channel.equals(id))
+            if (channel.getId().equals(id))
                 return channel.getGroup();
 
         for (Server server : availableServers)

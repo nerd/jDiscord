@@ -8,7 +8,7 @@ import me.itsghost.jdiscord.talkable.Talkable;
 import me.itsghost.jdiscord.talkable.User;
 
 public class UserImpl implements User, Talkable {
-    @Getter private String username;
+    @Getter @Setter private String username;
     @Getter private String id;
     @Getter private String cid;
     @Getter @Setter private String avatar;

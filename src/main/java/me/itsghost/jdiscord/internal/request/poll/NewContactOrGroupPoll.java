@@ -1,9 +1,17 @@
 package me.itsghost.jdiscord.internal.request.poll;
 
+import me.itsghost.jdiscord.events.AddedToServer;
+import me.itsghost.jdiscord.events.ChannelDeletedEvent;
 import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
 import me.itsghost.jdiscord.Server;
+import me.itsghost.jdiscord.internal.impl.GroupImpl;
+import me.itsghost.jdiscord.internal.impl.ServerImpl;
 import me.itsghost.jdiscord.internal.impl.UserImpl;
+import me.itsghost.jdiscord.talkable.GroupUser;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class NewContactOrGroupPoll implements Poll {
     private DiscordAPIImpl api;
@@ -28,6 +36,11 @@ public class NewContactOrGroupPoll implements Poll {
             userImpl.setAvatarId(avatarId);
 
             api.updateContact(userImpl);
+        }else{
+            GroupImpl group = new GroupImpl(content.getString("id"), content.getString("id"), server, api);
+            group.setName(content.getString("name"));
+            server.getGroups().add(group);
+            api.getEventManager().executeEvent(new ChannelDeletedEvent(group));
         }
     }
 }

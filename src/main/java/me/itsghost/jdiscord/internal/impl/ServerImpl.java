@@ -7,13 +7,14 @@ import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;
 import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;
 import me.itsghost.jdiscord.talkable.Group;
 import me.itsghost.jdiscord.talkable.GroupUser;
+import me.itsghost.jdiscord.talkable.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServerImpl implements Server {
     @Getter @Setter private String id;
-    @Getter @Setter private String topic;
+    @Getter @Setter private String name;
     @Getter @Setter private String location;
     @Getter @Setter private String creatorId;
     @Getter @Setter private String avatar;
@@ -76,5 +77,15 @@ public class ServerImpl implements Server {
         pb.setUrl("https://discordapp.com/api/guilds/" + id + "/bans/" + getGroupUserByUsername(user).getUser().getId() + "?delete-message-days=0");
         pb.setType(RequestType.PUT);
         pb.makeRequest();
+    }
+
+
+    public void updateUser(GroupUser user) {
+        ArrayList<GroupUser> users = new ArrayList<>();
+        for (GroupUser userA : connectedClients)
+            if (userA.getUser().getId().equals(user.getUser().getId()))
+                users.add(userA);
+        connectedClients.removeAll(users);
+        connectedClients.add(user);
     }
 }

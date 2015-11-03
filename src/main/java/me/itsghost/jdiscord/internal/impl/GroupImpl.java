@@ -8,10 +8,13 @@ import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;
 import me.itsghost.jdiscord.message.Message;
 import me.itsghost.jdiscord.message.MessageHistory;
 import me.itsghost.jdiscord.talkable.Group;
+import me.itsghost.jdiscord.talkable.GroupUser;
 import me.itsghost.jdiscord.talkable.Talkable;
+import me.itsghost.jdiscord.talkable.User;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class GroupImpl implements Group, Talkable {
@@ -103,4 +106,5 @@ public class GroupImpl implements Group, Talkable {
 
         id = new JSONObject(a).getString("id");
     }
+
 }

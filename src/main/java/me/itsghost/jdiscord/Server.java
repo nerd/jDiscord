@@ -8,7 +8,7 @@ import java.util.List;
 public interface Server {
     String getId();
 
-    String getTopic();
+    String getName();
 
     String getLocation();
 

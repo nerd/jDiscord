@@ -144,7 +144,7 @@ public class ReadyPoll implements Poll {
             JSONObject item = guilds.getJSONObject(i);
 
             ServerImpl server = new ServerImpl(item.getString("id"), api);
-            server.setTopic(item.getString("name"));
+            server.setName(item.getString("name"));
             server.setLocation(item.getString("region"));
             server.setCreatorId(item.getString("owner_id"));
             server.setAvatar(item.isNull("icon") ? "" : "https://cdn.discordapp.com/icons/" + server.getId() + "/" + item.getString("icon") + ".jpg");

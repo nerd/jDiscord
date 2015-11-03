@@ -1,10 +1,11 @@
 package me.itsghost.jdiscord.talkable;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class GroupUser {
     @Getter private User user;
-    @Getter private String role;
+    @Getter @Setter private String role;
     @Getter private String discriminator;
 
     public GroupUser(User user, String role, String discriminator) {
