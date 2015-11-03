@@ -5,6 +5,7 @@ This API thrives to be the best DiscordAPI written in Java, adding features no o
 Download: see bottom of the page
 
 #Features
+- Kicking and banning                   (API exclusive)
 - Profile settings/account settings		(API exclusive)
 - Message Building
 - Online statuses						(This includes your own status! API exclusive)
