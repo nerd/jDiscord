@@ -1,5 +1,20 @@
 #jDiscord
 
+#Features
+- Profile settings
+- Message Building
+- Online statuses
+- Avatars + Roles 
+- DMs
+- Group messaging
+- User talk (edited) event 
+- User join/banned/kicked events
+
+#TODO
+- Message history (near enough done)
+- Group deletion (+ event)
+- Removed message event
+- User Promoted Event
 
 #Download
 
@@ -24,7 +39,7 @@ Dependency:
 
 #Getting a discord api instance
 
-~~The api doesn't have a builder, just create a new instance of the DiscordAPI class, and optionally use #login like a builder method.~~
+In order to create the DiscordAPI instance, you'll need to use the DiscordBuilder builder class. 
 
 Examples:
 ```java
