@@ -1,19 +1,23 @@
 #jDiscord
 
+This API thrives to be the best DiscordAPI written in Java, adding features no other api has got, such as Account Management, and VOIP (WIP).
+
+Download: see bottom of the page
+
 #Features
-- Profile settings
+- Profile settings/account settings		(API exclusive)
 - Message Building
-- Online statuses
+- Online statuses						(This includes your own status! API exclusive)
 - Avatars + Roles 
 - DMs
 - Group messaging
 - User talk (edited) event 
 - User join/banned/kicked events
-- And a lot more
+- And a lot more 
 
 #Events
-- AddedToServer (guild)
-- APILoadedEvent
+- AddedToServer (AddedToGuildEvent)
+- APILoadedEvent      (You might get NPEs if you don't wait for this)
 - ChannelCreatedEvent (group/channel)
 - ChannelDeletedEvent (group/channel)
 - ChannelUpdatedEvent (group/channel)
@@ -24,30 +28,12 @@
 - UserTypingEvent
 - UserOnlineStatusChangedEvent
 - UserDeletedMessageEvent
+- MentionEvent (1.3)
 
 #TODO
 - Message history (near enough done)
-
-#Download
-
-Maven: http://itsghost.me/maven
-
-Repository:
-```
- <repository>
-  <id>xyz.gghost</id>
-  <url>http://gghost.xyz/maven/</url>
-</repository>
-```
-Dependency:
-```
-<dependency>
-  <groupId>xyz.gghost</groupId>
-  <artifactId>jdiscord</artifactId>
-  <version>1.2</version>
-  <scope>compile</scope>
-</dependency>
-```
+- Set what game you're playing
+- VOIP (Java and C# Host) (currently experimental)
 
 #Getting a discord api instance
 
@@ -60,16 +46,6 @@ DiscordAPI api = new DiscordBuilder("email", "pass").build().login();
 DiscordAPI api = new DiscordBuilder("email", "pass").build();
 api.login();
 ```
-
-#Events
-
-- APILoadedEvent
-- UserBannedEvent
-- UserChatEvent
-- UserJoinedEvent
-- UserKickedEvent
-- UserTypingEvent
-- UserOnlineStatusChangedEvent
 
 #Using the event manager
 In order to listen for an event, create a class that implements EventListener, and register it by calling "api.getEventManager().registerListener(new YourListener(api));" All event's can be found the "me.itsghost.jdiscord.events" package and in the event section of this readme file. 
@@ -102,9 +78,27 @@ public class Test {
     }
 }
 ```
+#Shutup and take my money  (Now using shaded jar due to compatibility issues with past builds)
 
-#Why doesn't 'X' work?
-Simple, either you're doing something before the api has loaded fully (APILoadedEvent / DiscordAPI#isLoaded), or it's because this is still a concept.
+Maven: http://itsghost.me/maven
+
+Repository:
+```
+ <repository>
+  <id>xyz.gghost</id>
+  <url>http://gghost.xyz/maven/</url>
+</repository>
+```
+Dependency:
+```
+<dependency>
+  <groupId>xyz.gghost</groupId>
+  <artifactId>jdiscord</artifactId>
+  <version>1.2</version>
+  <scope>compile</scope>
+</dependency>
+```
+
 
 #Dependencies
 - Apache commons lang 3
@@ -112,4 +106,3 @@ Simple, either you're doing something before the api has loaded fully (APILoaded
 - org.json
 - org.java-websocket
 - http://itsghost.me/commons-codec-1.10.jar
-- commons-io 2.2 (might not be required)
