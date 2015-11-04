@@ -18,8 +18,11 @@ public class ServerImpl implements Server {
     @Getter @Setter private String location;
     @Getter @Setter private String creatorId;
     @Getter @Setter private String avatar;
-    @Getter @Setter private List<GroupUser> connectedClients = new ArrayList<GroupUser>();
-    @Getter @Setter private List<Group> groups = new ArrayList<Group>();
+    @Getter @Setter private String token;
+    @Getter @Setter private String server;
+    @Getter @Setter private List<GroupUser> connectedClients = new ArrayList<>();
+    @Getter @Setter private List<Group> groups = new ArrayList<>();
+    @Getter @Setter private List<VoiceGroupImpl> voiceGroups = new ArrayList<>();
 
     private DiscordAPIImpl api;
 

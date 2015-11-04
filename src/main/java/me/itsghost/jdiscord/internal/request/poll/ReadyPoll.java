@@ -1,13 +1,10 @@
 package me.itsghost.jdiscord.internal.request.poll;
 
 import me.itsghost.jdiscord.OnlineStatus;
-import me.itsghost.jdiscord.internal.impl.DiscordAPIImpl;
+import me.itsghost.jdiscord.internal.impl.*;
 import me.itsghost.jdiscord.SelfData;
 import me.itsghost.jdiscord.Server;
 import me.itsghost.jdiscord.events.APILoadedEvent;
-import me.itsghost.jdiscord.internal.impl.GroupImpl;
-import me.itsghost.jdiscord.internal.impl.ServerImpl;
-import me.itsghost.jdiscord.internal.impl.UserImpl;
 import me.itsghost.jdiscord.internal.utils.GameIdUtils;
 import me.itsghost.jdiscord.talkable.GroupUser;
 import me.itsghost.jdiscord.talkable.User;
@@ -59,7 +56,15 @@ public class ReadyPoll implements Poll {
         setupServers(content);
         setupContacts(content);
 
-        api.getEventManager().executeEvent(new APILoadedEvent());
+        new Thread(){
+            public void run(){
+                try {
+                    Thread.sleep(500);
+                    api.getEventManager().executeEvent(new APILoadedEvent());
+                }catch(Exception e){}
+            }
+        }.start();
+
         api.setLoaded(true);
     }
 
@@ -158,12 +163,14 @@ public class ReadyPoll implements Poll {
             for (int ia = 0; ia < channels.length(); ia++) {
                 JSONObject channel = channels.getJSONObject(ia);
 
-                if (!channel.getString("type").equals("text"))
-                    continue;
-
-                GroupImpl group = new GroupImpl(channel.getString("id"), channel.getString("id"), server, api);
-                group.setName(channel.getString("name"));
-                server.getGroups().add(group);
+                if (!channel.getString("type").equals("text")){
+                    VoiceGroupImpl group = new VoiceGroupImpl(channel.getString("id"), channel.getString("name"), server, api);
+                    server.getVoiceGroups().add(group);
+                }else {
+                    GroupImpl group = new GroupImpl(channel.getString("id"), channel.getString("id"), server, api);
+                    group.setName(channel.getString("name"));
+                    server.getGroups().add(group);
+                }
             }
             api.getAvailableServers().add(server);
         }

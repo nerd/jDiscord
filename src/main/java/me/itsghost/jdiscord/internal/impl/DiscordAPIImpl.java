@@ -12,12 +12,15 @@ import me.itsghost.jdiscord.exception.BadUsernamePasswordException;
 import me.itsghost.jdiscord.exception.DiscordFailedToConnectException;
 import me.itsghost.jdiscord.exception.NoLoginDetailsException;
 import me.itsghost.jdiscord.internal.Login;
+import me.itsghost.jdiscord.internal.httprequestbuilders.PacketBuilder;
+import me.itsghost.jdiscord.internal.httprequestbuilders.RequestType;
 import me.itsghost.jdiscord.internal.request.RequestManager;
 import me.itsghost.jdiscord.talkable.Group;
 import me.itsghost.jdiscord.talkable.User;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.io.IOUtils;
+import org.java_websocket.WebSocketImpl;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -89,7 +92,7 @@ public class DiscordAPIImpl implements DiscordAPI {
 
     public Server getServerById(String id) {
         for (Server server : availableServers)
-            if (server.equals(id))
+            if (server.getId().equals(id))
                 return server;
         return null;
     }
@@ -105,6 +108,15 @@ public class DiscordAPIImpl implements DiscordAPI {
         for (User user : availableDms)
             if (user.equals(id))
                 return user;
+        return null;
+    }
+
+
+    public VoiceGroupImpl getVoiceGroupById(String id){
+       // for (Server server : availableServers)
+       //     for (VoiceGroupImpl channel : server.getVoiceGroups())
+       //         if (channel.getId().equals(id))
+       //             return channel;
         return null;
     }
 
@@ -124,6 +136,13 @@ public class DiscordAPIImpl implements DiscordAPI {
                 users.add(userA);
         availableDms.removeAll(users);
         availableDms.add(user);
+    }
+
+    public Boolean joinInviteId(String id){
+        PacketBuilder rb = new PacketBuilder(this);
+        rb.setUrl("https://discordapp.com/api/invite/" + id);
+        rb.setType(RequestType.POST);
+        return rb.makeRequest() != null;
     }
 
     public User getBlankUser(){

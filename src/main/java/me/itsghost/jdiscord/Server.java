@@ -1,5 +1,6 @@
 package me.itsghost.jdiscord;
 
+import me.itsghost.jdiscord.internal.impl.VoiceGroupImpl;
 import me.itsghost.jdiscord.talkable.Group;
 import me.itsghost.jdiscord.talkable.GroupUser;
 
@@ -23,6 +24,8 @@ public interface Server {
     List<GroupUser> getConnectedClients();
 
     List<Group> getGroups();
+
+    //List<VoiceGroupImpl> getVoiceGroups();
 
     void kick(String user);
 

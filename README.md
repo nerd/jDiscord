@@ -14,6 +14,7 @@ Download: see bottom of the page
 - Group messaging
 - User talk (edited) event 
 - User join/banned/kicked events
+- Invite joining
 - And a lot more 
 
 #Events
@@ -95,7 +96,7 @@ Dependency:
 <dependency>
   <groupId>xyz.gghost</groupId>
   <artifactId>jdiscord</artifactId>
-  <version>1.2</version>
+  <version>1.3</version>
   <scope>compile</scope>
 </dependency>
 ```
