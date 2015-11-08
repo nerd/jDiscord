@@ -2,7 +2,7 @@
 
 This API thrives to be the best Discord API written in Java with features no other API has, such as account management, and VOIP (WIP).
 
-[Download](#shut-up-and-take-my-money-) with maven
+[Download](#shut-up-and-take-my-money) with maven
 
 #Features
 - Kicking and banning                   (API exclusive)
