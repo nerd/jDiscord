@@ -1,13 +1,13 @@
 #jDiscord
 
-This API thrives to be the best DiscordAPI written in Java, adding features no other api has got, such as Account Management, and VOIP (WIP).
+This API thrives to be the best Discord API written in Java with features no other API has, such as account management, and VOIP (WIP).
 
-Download: see bottom of the page
+[Download](#shut-up-and-take-my-money-) with maven
 
 #Features
 - Kicking and banning                   (API exclusive)
 - Profile settings/account settings		(API exclusive)
-- Message Building
+- Message building
 - Online statuses						(This includes your own status! API exclusive)
 - Avatars + Roles 
 - DMs
@@ -15,10 +15,15 @@ Download: see bottom of the page
 - User talk (edited) event 
 - User join/banned/kicked events
 - Invite joining
-- And a lot more 
+- Much more... 
+
+###TODO
+- Message history         (nearly done)
+- Game status
+- VOIP (Java and C# Host) (currently experimental)
 
 #Events
-- AddedToServer (AddedToGuildEvent)
+- AddedToServer       (AddedToGuildEvent)
 - APILoadedEvent      (You might get NPEs if you don't wait for this)
 - ChannelCreatedEvent (group/channel)
 - ChannelDeletedEvent (group/channel)
@@ -32,14 +37,11 @@ Download: see bottom of the page
 - UserDeletedMessageEvent
 - MentionEvent (1.3)
 
-#TODO
-- Message history (near enough done)
-- Set what game you're playing
-- VOIP (Java and C# Host) (currently experimental)
 
-#Getting a discord api instance
 
-In order to create the DiscordAPI instance, you'll need to use the DiscordBuilder builder class. 
+#Creating a DiscordAPI instance
+
+In order to create the DiscordAPI instance, you'll need to use the DiscordBuilder class. 
 
 Examples:
 ```java
@@ -50,7 +52,7 @@ api.login();
 ```
 
 #Using the event manager
-In order to listen for an event, create a class that implements EventListener, and register it by calling "api.getEventManager().registerListener(new YourListener(api));" All event's can be found the "me.itsghost.jdiscord.events" package and in the event section of this readme file. 
+In order to listen for an event, create a class that implements EventListener, and register it by calling `api.getEventManager().registerListener(new YourListener(api));`. All events can be found in the `me.itsghost.jdiscord.events` package as well as the [Events](#events) section. 
 
 ```java
 public class ExampleListener implements EventListener {
@@ -80,13 +82,13 @@ public class Test {
     }
 }
 ```
-#Shutup and take my money  (Now using shaded jar due to compatibility issues with past builds)
-
-Maven: http://itsghost.me/maven
+#Shut up and take my money! 
+###(Now using shaded jar due to compatibility issues with past builds)
+[Maven](http://itsghost.me/maven)
 
 Repository:
 ```
- <repository>
+<repository>
   <id>xyz.gghost</id>
   <url>http://gghost.xyz/maven/</url>
 </repository>
@@ -103,8 +105,8 @@ Dependency:
 
 
 #Dependencies
-- Apache commons lang 3
-- lombok
-- org.json
-- org.java-websocket
+- [Apache Commons Lang 3](https://commons.apache.org/proper/commons-lang/)
+- [lombok](https://projectlombok.org/)
+- [JSON](http://www.json.org/java/)
+- [Java-Websocket](https://github.com/tootallnate/java-websocket)
 - http://itsghost.me/commons-codec-1.10.jar
