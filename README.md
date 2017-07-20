@@ -1,4 +1,4 @@
-#jDiscord
+# jDiscord
 
 This API thrives to be the best Discord API written in Java with features no other API has, such as account management, and VOIP (WIP).
 
