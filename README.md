@@ -4,7 +4,7 @@ This API thrives to be the best Discord API written in Java with features no oth
 
 [Download](#shut-up-and-take-my-money) with maven
 
-#Features
+# Features
 - Kicking and banning                   (API exclusive)
 - Profile settings/account settings		(API exclusive)
 - Message building
@@ -17,12 +17,12 @@ This API thrives to be the best Discord API written in Java with features no oth
 - Invite joining
 - Much more... 
 
-###TODO
+### TODO
 - Message history         (nearly done)
 - Game status
 - VOIP (Java and C# Host) (currently experimental)
 
-#Events
+# Events
 - AddedToServer       (AddedToGuildEvent)
 - APILoadedEvent      (You might get NPEs if you don't wait for this)
 - ChannelCreatedEvent (group/channel)
@@ -39,7 +39,7 @@ This API thrives to be the best Discord API written in Java with features no oth
 
 
 
-#Creating a DiscordAPI instance
+# Creating a DiscordAPI instance
 
 In order to create the DiscordAPI instance, you'll need to use the DiscordBuilder class. 
 
@@ -51,7 +51,7 @@ DiscordAPI api = new DiscordBuilder("email", "pass").build();
 api.login();
 ```
 
-#Using the event manager
+# Using the event manager
 In order to listen for an event, create a class that implements EventListener, and register it by calling `api.getEventManager().registerListener(new YourListener(api));`. All events can be found in the `me.itsghost.jdiscord.events` package as well as the [Events](#events) section. 
 
 ```java
@@ -82,8 +82,8 @@ public class Test {
     }
 }
 ```
-#Shut up and take my money! 
-###(Now using shaded jar due to compatibility issues with past builds)
+# Shut up and take my money! 
+### (Now using shaded jar due to compatibility issues with past builds)
 [Maven](http://itsghost.me/maven)
 
 Repository:
@@ -104,7 +104,7 @@ Dependency:
 ```
 
 
-#Dependencies
+# Dependencies
 - [Apache Commons Lang 3](https://commons.apache.org/proper/commons-lang/)
 - [lombok](https://projectlombok.org/)
 - [JSON](http://www.json.org/java/)
